@@ -1,10 +1,9 @@
 # -*- coding: utf8 -*-
 
 from main.core.event_handler.vk.celery_app import app
-from main.core.db.synchronized.redis.admins_id_set import AdminsIdSet
-from main.core.db.synchronized.redis.users_id_set import UsersIdSet
-from main.core.db.synchronized.redis.directory_id_dictionary import DirectoryIdDictionary
-from main.core.application import Application
+from main.core.db.synchronized.redis.vk.admins_id_set import AdminsIdSet
+from main.core.db.synchronized.redis.vk.users_id_set import UsersIdSet
+from main.core.db.synchronized.redis.vk.directory_id_dictionary import DirectoryIdDictionary
 from main.core.navigator import Navigator
 import requests
 from random import getrandbits

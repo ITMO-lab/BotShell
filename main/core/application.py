@@ -1,6 +1,6 @@
 # -*- coding: utf8 -*-
 from main.core.navigator import Navigator
-from main.core.db.synchronized.redis.directory_id_dictionary import DirectoryIdDictionary
+from main.core.db.synchronized.redis.vk.directory_id_dictionary import DirectoryIdDictionary
 
 
 class Application:

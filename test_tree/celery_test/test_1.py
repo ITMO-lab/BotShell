@@ -33,7 +33,7 @@ def sleep_print(x, y):
     return str(y)
 
 
-from main.core.db.synchronized.redis.admins_id_set import AdminsIdSet
+from main.core.db.synchronized.redis.vk.admins_id_set import AdminsIdSet
 
 AdminsIdSet.users_add([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100])
 @app.task(ignore_result=True)

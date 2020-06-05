@@ -3,9 +3,9 @@
 import requests
 import json
 from main.core.event_handler.vk.tasks import event_handler
-from main.core.db.synchronized.redis.admins_id_set import AdminsIdSet
-from main.core.db.synchronized.redis.users_id_set import UsersIdSet
-from main.core.db.synchronized.redis.directory_id_dictionary import DirectoryIdDictionary
+from main.core.db.synchronized.redis.vk.admins_id_set import AdminsIdSet
+from main.core.db.synchronized.redis.vk.users_id_set import UsersIdSet
+from main.core.db.synchronized.redis.vk.directory_id_dictionary import DirectoryIdDictionary
 import os
 
 cur_dir = '/main/core/event_handler/vk'

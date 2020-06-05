@@ -1,6 +1,6 @@
 # -*- coding: utf8 -*-
 
-from main.core.db.synchronized.redis.directory_id_dictionary import DirectoryIdDictionary
+from main.core.db.synchronized.redis.vk.directory_id_dictionary import DirectoryIdDictionary
 
 def test1():
     DirectoryIdDictionary.set(1, 'test 1')
