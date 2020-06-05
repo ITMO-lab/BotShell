@@ -4,9 +4,9 @@ from main.core.db.synchronized.redis.base.id_set import IdSet
 import threading
 
 
-class UsersIdSet(IdSet):
+class AdminsIdSet(IdSet):
     _lock = threading.Lock()
     _data = set()
-    _name = 'UsersIdSet'
+    _name = 'VkAdminsIdSet'
     _redis_db_number = 14
     _redis_lock_db_number = 15

@@ -8,6 +8,6 @@ class DirectoryIdDictionary(IdDictionary):
     _data = dict()
     _lock = dict()
     _lock_handle_lock = threading.Lock()
-    _name = 'DirectoryIdDictionary'
+    _name = 'VkDirectoryIdDictionary'
     _redis_db_number = 14
     _redis_lock_db_number = 15
