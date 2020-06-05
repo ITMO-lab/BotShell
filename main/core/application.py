@@ -4,9 +4,19 @@ from main.core.db.synchronized.redis.vk.directory_id_dictionary import Directory
 
 
 class Application:
+    """
+    Основной метод, обрабатывающий новые события от пользователя.
+    """
     @classmethod
     def run(cls, message):
-        # Ваш функционал вставляется сюда после наследования от данного класса
+        return
+
+    """
+    Метод, вызываемый при переходе в новое приложение командой cd.
+    Следует использовать для подгрузки клавиатуры и базового меню нового окна.
+    """
+    @classmethod
+    def startup(cls, user_id: int):
         return
 
     """
@@ -22,7 +32,9 @@ class Application:
         return result
 
     """
-    Показать прииложения, которые находятся в вашей директории с модулем
+    Показать приложения, которые находятся в вашей директории с модулем. 
+    Если вы хотите изменить доступ некоторым пользователям к этой директории, 
+    Переопределите метод в вашем пакете, вызовите dir супер класса и измените доступный список директорий.
     """
     @classmethod
     def dir(cls) -> list:
@@ -39,6 +51,7 @@ class Application:
     def cd(cls, user_id: int, cd_path: str) -> bool:
         if cd_path == '/':
             DirectoryIdDictionary.set(user_id, '/')
+            Navigator.get('/').startup(user_id)
             return True
         if cd_path.endswith('/'):
             cd_path = cd_path[:-1]
@@ -49,6 +62,7 @@ class Application:
                 if cd_path == '':
                     cd_path = '/'
                 DirectoryIdDictionary.set(user_id, cd_path)
+                Navigator.get(cd_path).startup(user_id)
                 return True
             else:
                 return False
@@ -61,6 +75,7 @@ class Application:
         package_split_point = cd_path.rfind('/')
         if cd_path[package_split_point + 1:] in Navigator.dir(cd_path[:package_split_point]):
             DirectoryIdDictionary.set(user_id, cd_path)
+            Navigator.get(cd_path).startup(user_id)
             return True
         else:
             return False

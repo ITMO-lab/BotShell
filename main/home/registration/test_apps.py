@@ -22,3 +22,9 @@ class RegistrationApplication(Application):
             messages = (message, )
         user_ids = ((user_id, ), (user_id, ), (user_id, ), (user_id, ), (user_id, ), )
         mass_send.apply_async(args=(messages, user_ids, ), queue='mass_send', priority=10)
+
+    @classmethod
+    def startup(cls, user_id):
+        messages = (str(cls.dir()), )
+        user_ids = ((user_id, ), )
+        mass_send.apply_async(args=(messages, user_ids, ), queue='mass_send', priority=10)
