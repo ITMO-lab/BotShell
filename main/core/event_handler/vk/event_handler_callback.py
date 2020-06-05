@@ -11,7 +11,7 @@ cur_dir = '/main/core/event_handler/vk'
 path = os.getcwd()
 if path.count(cur_dir) == 0:
     path += '/main/core/event_handler/vk'
-with open(path + '/confirmation_token') as file:
+with open(path + '/confirmation_token.secret') as file:
     confirmation_token = file.readline()
 
 flask_app = Flask(__name__)

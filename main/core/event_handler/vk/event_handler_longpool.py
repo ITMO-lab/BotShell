@@ -12,7 +12,7 @@ cur_dir = '/main/core/event_handler/vk'
 path = os.getcwd()
 if path.count(cur_dir) == 0:
     path += '/main/core/event_handler/vk'
-with open(path + '/token') as file:
+with open(path + '/token.secret') as file:
     token = file.readline()
 group_id = 195403459
 
