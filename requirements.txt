@@ -1,0 +1,6 @@
+requests
+kombu
+celery
+redis
+flask
+vk_api
