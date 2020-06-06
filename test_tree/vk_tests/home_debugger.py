@@ -1,9 +1,9 @@
-from main.home.admin.admin_pkg import MyApplication
+from main.home.admin.test_apps import TestApplication
 from main.core.navigator import Navigator
 
 message = '123'
 
-MyApplication.run(message)
+TestApplication.run(message)
 
 # print(MyApplication.pwd())
 
@@ -18,4 +18,4 @@ print(sameApp.dir())
 
 """
 
-print(MyApplication.cd(1, 'sub_admin'))
+print(TestApplication.cd(1, 'sub_admin'))

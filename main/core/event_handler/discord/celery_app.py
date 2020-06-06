@@ -18,8 +18,16 @@ celeryconfig['CELERY_QUEUES'] = (
     Queue('commands', Exchange('commands'), routing_key='commands', queue_arguments={'x-max-priority': 10}),
     Queue('user_messages', Exchange('user_messages'), routing_key='user_messages', queue_arguments={'x-max-priority': 10}),
     Queue('admin_messages', Exchange('admin_messages'), routing_key='admin_messages', queue_arguments={'x-max-priority': 10}),
-    Queue('mass_send', Exchange('mass_send'), routing_key='mass_send', queue_arguments={'x-max-priority': 10}),
     Queue('celery', Exchange('celery'), routing_key='celery'),
 )
 app.config_from_object(celeryconfig)
-
+app.conf.beat_schedule = {
+    'users_id_set_sync': {
+        'task': 'main.core.event_handler.discord.tasks.users_id_set_sync',
+        'schedule': 5.0,
+    },
+    'admins_id_set_sync': {
+        'task': 'main.core.event_handler.discord.tasks.admins_id_set_sync',
+        'schedule': 15.0,
+    },
+}
