@@ -19,7 +19,24 @@ AdminsIdSet.sync()
 UsersIdSet.sync()
 DirectoryIdDictionary.sync()
 
+permissions = discord.Permissions()
+permissions.all()
 client = discord.Client()
+
+
+async def obj_from_emoji(emoji_raw):
+    emoji = {}
+    try:
+        emoji['str'] = str(emoji_raw)
+    except:
+        pass
+    try:
+        emoji['id'] = emoji_raw.id
+        emoji['name'] = emoji_raw.name
+        emoji['guild_id'] = emoji_raw.guild_id
+    except:
+        pass
+    return emoji
 
 
 @client.event
@@ -34,7 +51,8 @@ async def on_ready():
 async def on_message(message):
     if message.author == client.user or message.channel.type != discord.ChannelType.private:
         return
-    ctx = {"type": EventType.MESSAGE_NEW, "message": message}
+    ctx = {"type": EventType.MESSAGE_NEW,
+           "message": {"id": message.id, "channel_id": message.channel.id, "user_id": message.author.id}}
     event_handler.apply_async(args=(ctx,), queue='events', priority=5)
 
 
@@ -42,7 +60,8 @@ async def on_message(message):
 async def on_message_delete(message):
     if message.author == client.user or message.channel.type != discord.ChannelType.private:
         return
-    ctx = {"type": EventType.MESSAGE_DELETE, "message": message}
+    ctx = {"type": EventType.MESSAGE_DELETE,
+           "message": {"id": message.id, "channel_id": message.channel.id, "user_id": message.author.id}}
     event_handler.apply_async(args=(ctx,), queue='events', priority=5)
 
 
@@ -50,7 +69,9 @@ async def on_message_delete(message):
 async def on_message_edit(before, after):
     if after.author == client.user or after.channel.type != discord.ChannelType.private:
         return
-    ctx = {"type": EventType.MESSAGE_EDIT, "before": before, "after": after}
+    ctx = {"type": EventType.MESSAGE_EDIT,
+           "message_old": {"id": before.id, "channel_id": before.channel.id, "user_id": before.author.id},
+           "message": {"id": after.id, "channel_id": after.channel.id, "user_id": after.author.id}}
     event_handler.apply_async(args=(ctx,), queue='events', priority=5)
 
 
@@ -58,7 +79,10 @@ async def on_message_edit(before, after):
 async def on_reaction_add(reaction, user):
     if user == client.user or reaction.message.channel.type != discord.ChannelType.private:
         return
-    ctx = {"type": EventType.MESSAGE_EDIT, "reaction": reaction, "user": user}
+    ctx = {"type": EventType.REACTION_ADD,
+           "reaction": {"count": reaction.count, "me": reaction.me, "user_id": user.id,
+            "message": {"id": reaction.message.id, "channel_id": reaction.message.channel.id,
+            "user_id": reaction.message.author.id}, "emoji": await obj_from_emoji(reaction.emoji)}}
     event_handler.apply_async(args=(ctx,), queue='events', priority=5)
 
 
@@ -66,7 +90,10 @@ async def on_reaction_add(reaction, user):
 async def on_reaction_remove(reaction, user):
     if user == client.user or reaction.message.channel.type != discord.ChannelType.private:
         return
-    ctx = {"type": EventType.MESSAGE_EDIT, "reaction": reaction, "user": user}
+    ctx = {"type": EventType.REACTION_REMOVE,
+           "reaction": {"count": reaction.count, "me": reaction.me, "user_id": user.id,
+            "message": {"id": reaction.message.id, "channel_id": reaction.message.channel.id,
+            "user_id": reaction.message.author.id}, "emoji": await obj_from_emoji(reaction.emoji)}}
     event_handler.apply_async(args=(ctx,), queue='events', priority=5)
 
 client.run(confirmation_token)

@@ -3,7 +3,7 @@
 from enum import Enum
 
 
-class EventType(Enum):
+class EventType(int, Enum):
     MESSAGE_NEW = 1
     MESSAGE_EDIT = 2
     MESSAGE_DELETE = 3
