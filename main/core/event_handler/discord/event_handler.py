@@ -70,7 +70,6 @@ async def on_message_edit(before, after):
     if after.author == client.user or after.channel.type != discord.ChannelType.private:
         return
     ctx = {"type": EventType.MESSAGE_EDIT,
-           "message_old": {"id": before.id, "channel_id": before.channel.id, "user_id": before.author.id},
            "message": {"id": after.id, "channel_id": after.channel.id, "user_id": after.author.id}}
     event_handler.apply_async(args=(ctx,), queue='events', priority=5)
 
