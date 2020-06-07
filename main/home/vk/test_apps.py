@@ -1,10 +1,10 @@
 # -*- coding: utf8 -*-
 
-from main.core.application import Application
+from main.core.application import SyncApplication
 from main.core.event_handler.vk.tasks import mass_send
 
 
-class RegistrationApplication(Application):
+class TestApplication(SyncApplication):
     @classmethod
     def run(cls, message):
         user_id = int(message['object']['message']['from_id'])

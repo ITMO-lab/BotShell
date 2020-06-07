@@ -72,7 +72,6 @@ class IdSet:
             lock = db[cls._redis_lock_db_number].lock(cls._name)
             with lock:
                 update = db[cls._redis_db_number].smembers(cls._name)
-                print('{0}: db={1} set={2}'.format(cls._name, update, cls._data))
                 if update.__len__() > 0:
                     update_tuple = ast.literal_eval(str(update).replace('}', '').replace('{', '').replace('b', '').replace("'", ''))
                     if type(update_tuple) is int:
@@ -80,4 +79,5 @@ class IdSet:
                     cls._data.update(update_tuple)
                 if cls._data.__len__() > 0:
                     db[cls._redis_db_number].sadd(cls._name, *list(cls._data))
+                print('{0}: db={1} set={2}'.format(cls._name, update, cls._data))
         return

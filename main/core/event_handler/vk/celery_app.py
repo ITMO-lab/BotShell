@@ -23,6 +23,10 @@ celeryconfig['CELERY_QUEUES'] = (
 )
 app.config_from_object(celeryconfig)
 app.conf.beat_schedule = {
+    'directory_id_set_sync': {
+        'task': 'main.core.event_handler.vk.tasks.directory_id_set_sync',
+        'schedule': 5.0,
+    },
     'users_id_set_sync': {
         'task': 'main.core.event_handler.vk.tasks.users_id_set_sync',
         'schedule': 5.0,

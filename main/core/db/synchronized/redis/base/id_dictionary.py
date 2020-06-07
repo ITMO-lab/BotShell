@@ -70,6 +70,7 @@ class IdDictionary:
                         pass
                 update_value_str.update(cls._data)
                 cls._data.update(update_value_str)
+                print('{0}'.format(cls._data))
                 if update_value_str.__len__() > 0:
                     db[cls._redis_db_number].hmset(cls._name, update_value_str)
         return

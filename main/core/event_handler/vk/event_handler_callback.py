@@ -1,18 +1,11 @@
 # -*- coding: utf8 -*-
 
 from flask import Flask, request, json
+from main.core.db.synchronized.local.vk.client import VkClient
 from main.core.event_handler.vk.tasks import event_handler
 from main.core.db.synchronized.redis.vk.admins_id_set import AdminsIdSet
 from main.core.db.synchronized.redis.vk.users_id_set import UsersIdSet
 from main.core.db.synchronized.redis.vk.directory_id_dictionary import DirectoryIdDictionary
-import os
-
-cur_dir = '/main/core/event_handler/vk'
-path = os.getcwd()
-if path.count(cur_dir) == 0:
-    path += '/main/core/event_handler/vk'
-with open(path + '/confirmation_token.secret') as file:
-    confirmation_token = file.readline()
 
 flask_app = Flask(__name__)
 AdminsIdSet.sync()
@@ -25,7 +18,7 @@ def processing():
     if 'type' not in event.keys():
         return 'not vk'
     if event['type'] == 'confirmation':
-        return confirmation_token
+        return VkClient.confirmation_token
     else:
         event_handler.apply_async(args=(event,), queue='events', priority=5)
     return 'ok'

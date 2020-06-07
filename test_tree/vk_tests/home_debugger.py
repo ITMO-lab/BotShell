@@ -1,5 +1,4 @@
-from main.home.admin.test_apps import TestApplication
-from main.core.navigator import Navigator
+from main.home.vk.admin.test_apps import TestApplication
 
 message = '123'
 

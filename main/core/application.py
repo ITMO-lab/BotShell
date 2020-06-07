@@ -1,4 +1,5 @@
 # -*- coding: utf8 -*-
+
 from main.core.navigator import Navigator
 from main.core.db.synchronized.redis.vk.directory_id_dictionary import DirectoryIdDictionary
 
@@ -25,7 +26,7 @@ class Application:
     """
     @classmethod
     def pwd(cls) -> str:
-        result = cls.__module__.replace(Navigator.GLOBAL_HOME_PATH, '').replace('.', '/')
+        result = cls.__module__.replace(Navigator.GLOBAL_HOME_PATH + Navigator.GLOBAL_PACKAGE_PATH, '').replace('.', '/')
         result = result[:result.rfind('/')]
         if result == '':
             result = '/'
@@ -50,8 +51,7 @@ class Application:
     @classmethod
     def cd(cls, user_id: int, cd_path: str) -> bool:
         if cd_path == '/':
-            DirectoryIdDictionary.set(user_id, '/')
-            Navigator.get('/').startup(user_id)
+            cls._directory_set(user_id, '/')
             return True
         if cd_path.endswith('/'):
             cd_path = cd_path[:-1]
@@ -61,8 +61,7 @@ class Application:
                 cd_path = user_path[:user_path.rfind('/')]
                 if cd_path == '':
                     cd_path = '/'
-                DirectoryIdDictionary.set(user_id, cd_path)
-                Navigator.get(cd_path).startup(user_id)
+                cls._directory_set(user_id, cd_path)
                 return True
             else:
                 return False
@@ -74,8 +73,12 @@ class Application:
             cd_path = user_path
         package_split_point = cd_path.rfind('/')
         if cd_path[package_split_point + 1:] in Navigator.dir(cd_path[:package_split_point]):
-            DirectoryIdDictionary.set(user_id, cd_path)
-            Navigator.get(cd_path).startup(user_id)
+            cls._directory_set(user_id, cd_path)
             return True
         else:
             return False
+
+    @classmethod
+    def _directory_set(cls, user_id: int, cd_path: str):
+        DirectoryIdDictionary.set(user_id, cd_path)
+        Navigator.get(cd_path).startup(user_id)
