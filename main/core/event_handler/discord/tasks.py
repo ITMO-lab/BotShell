@@ -32,7 +32,6 @@ async def registration_handler(registration):
     if registration['type'] not in {EventType.MESSAGE_NEW, EventType.MESSAGE_EDIT}:
         return
     registration_application = Navigator.get(DirectoryIdDictionary.get(registration['message']['user_id']))
-    print(registration_application)
     await registration_application.run(registration)
     return
 
