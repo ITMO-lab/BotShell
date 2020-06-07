@@ -31,5 +31,3 @@ class MainDiscord(AsyncApplication):
         channel = user.dm_channel
         message = await cls.dir()
         await channel.send(str(message))
-        message = await cls.dir()
-        await channel.send(str(message))
